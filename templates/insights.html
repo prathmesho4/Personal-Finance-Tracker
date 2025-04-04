@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Insights | Finance Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="navbar-logo">Finance Tracker</div>
+            <div class="navbar-menu">
+                <a href="{{ url_for('index') }}">Dashboard</a>
+                <a href="{{ url_for('add_transaction') }}">Add Transaction</a>
+                <a href="{{ url_for('insights') }}">Insights</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="dashboard-card">
+                <h2>Spending Overview</h2>
+                <table class="transaction-table">
+                    <tr>
+                        <th>Total Spending</th>
+                        <td>${{ "%.2f"|format(insights.total_spending) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Average Monthly Spending</th>
+                        <td>${{ "%.2f"|format(insights.average_monthly_spending) }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Top Spending Categories</h2>
+                <table class="transaction-table">
+                    {% for category, amount in insights.top_categories.items() %}
+                    <tr>
+                        <th>{{ category }}</th>
+                        <td>${{ "%.2f"|format(amount) }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

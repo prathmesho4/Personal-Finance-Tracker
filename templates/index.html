@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="navbar-logo">Personal Finance Tracker</div>
+            <div class="navbar-menu">
+                <a href="{{ url_for('index') }}">Dashboard</a>
+                <a href="{{ url_for('add_transaction') }}">Add Transaction</a>
+                <a href="{{ url_for('insights') }}">Insights</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="dashboard-card">
+                <h2>Recent Transactions</h2>
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in recent_transactions %}
+                        <tr>
+                            <td>{{ transaction.date.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ transaction.category }}</td>
+                            <td>${{ "%.2f"|format(transaction.amount) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Spending by Category</h2>
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Total Spent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category, amount in category_spending.items() %}
+                        <tr>
+                            <td>{{ category }}</td>
+                            <td>${{ "%.2f"|format(amount) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
